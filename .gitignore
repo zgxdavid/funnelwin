@@ -1,0 +1,6 @@
+funnelenv/
+__pycache__/
+.project
+.pydevproject
+*.txt
+.settings/
