@@ -4,9 +4,9 @@ import wx
 import wx.lib.filebrowsebutton as fb
 import pandas as pd
 import os
-from settings import Settings
+from settings2 import Settings
 import dcfunctions as dcf
-from rundata import RunData
+from rundata2 import RunData
           
 class DcspWin(wx.App):        
     def OnInit(self):
