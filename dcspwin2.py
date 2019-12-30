@@ -12,12 +12,11 @@ class DcspWin(wx.App):
     def OnInit(self):
         self.mset = Settings()
         self.write1 = pd.ExcelWriter(self.mset.rlt)
-        self.write2 = pd.ExcelWriter(self.mset.tmpdata)
-        self.frame = wx.Frame(None, -1, title="Auto Generate Funnel", size=(1300,800), style=wx.DEFAULT_FRAME_STYLE)
+        self.frame = wx.Frame(None, -1, title="Auto HW to Services", size=(1300,800), style=wx.DEFAULT_FRAME_STYLE)
         
         self.statusbar = self.frame.CreateStatusBar(2, wx.STB_SIZEGRIP)
         self.statusbar.SetStatusWidths([-2, -3])
-        self.statusbar.SetStatusText("DCSP Work", 0)
+        self.statusbar.SetStatusText("DCSP Work on HW", 0)
         self.statusbar.SetStatusText("Welcome To Dell DCSP Team!", 1)
         
         IMG_BASE_DIR = os.path.join(os.getcwd(), 'img')
@@ -30,11 +29,11 @@ class DcspWin(wx.App):
         self.frame.CentreOnScreen()
         self.panel = wx.Panel(self.frame)
         
-        st1 = wx.StaticText(self.panel, -1, "Open HH's HW SFDC Funnel File: ", size=(240,-1), style=wx.ALIGN_RIGHT)
-        st2 = wx.StaticText(self.panel, -1, "Open David's Funnel List File: ", size=(240,-1), style=wx.ALIGN_RIGHT)
+        st1 = wx.StaticText(self.panel, -1, "Open EMC HW Funnel File: ", size=(240,-1), style=wx.ALIGN_RIGHT)
+#        st2 = wx.StaticText(self.panel, -1, "Open David's Funnel List File: ", size=(240,-1), style=wx.ALIGN_RIGHT)
         st3 = wx.StaticText(self.panel, -1, "Select result file path directory: ", size=(240,-1), style=wx.ALIGN_RIGHT)
         fb1 = fb.FileBrowseButton(self.panel, -1, size=(1000,-1), labelText=" ", startDirectory=self.mset.src1, changeCallback=self.OnFB1)
-        fb2 = fb.FileBrowseButton(self.panel, -1, size=(1000,-1), labelText=" ", startDirectory=self.mset.src2, changeCallback=self.OnFB2)
+#        fb2 = fb.FileBrowseButton(self.panel, -1, size=(1000,-1), labelText=" ", startDirectory=self.mset.src2, changeCallback=self.OnFB2)
         fb3 = fb.DirBrowseButton(self.panel, -1, size=(1000,-1), labelText=" ", startDirectory=self.mset.rltdir, changeCallback=self.OnFB3)
         
         slabel = wx.StaticText(self.panel, -1, "Select current working week:\t", size=(240,-1), style=wx.ALIGN_RIGHT)
@@ -44,7 +43,7 @@ class DcspWin(wx.App):
         self.sdcsp = wx.Choice(self.panel, -1, choices=self.mset.dcsp_names_all)
         
         self.fb4 = wx.TextCtrl(self.panel, -1, style=wx.TE_MULTILINE | wx.TE_READONLY, size=(1250,510))
-        self.mset.logs = dcf.mergestrs(dcf.show_welcome0())
+        self.mset.logs = dcf.mergestrs(dcf.show_welcome0_2())
         self.fb4.AppendText(self.mset.logs)
     
         self.shortlabel = wx.StaticText(self.panel, -1, "<---Click to generate funnel ... ", size=(600,-1))
@@ -63,8 +62,8 @@ class DcspWin(wx.App):
         box = wx.GridBagSizer(3, 0)
         box.Add(st1, pos=(0,0))
         box.Add(fb1, pos=(0,1), span=(1,3))
-        box.Add(st2, pos=(1,0))
-        box.Add(fb2, pos=(1,1), span=(1,3))
+ #       box.Add(st2, pos=(1,0))
+ #       box.Add(fb2, pos=(1,1), span=(1,3))
         box.Add(st3, pos=(2,0))
         box.Add(fb3, pos=(2,1), span=(1,3))
         box.Add(slabel, pos=(3,0))
@@ -97,17 +96,11 @@ class DcspWin(wx.App):
         self.mset.src1_s = 1
         return True
     
-    def OnFB2(self, evt):
-        self.mset.src2 = evt.GetString()
-        self.mset.src2_s = 1
-        return True
-    
+      
     def OnFB3(self, evt):
         self.mset.tmp1 = evt.GetString()
-        self.mset.rlt = os.path.join(self.mset.tmp1, self.mset.crtwk + ' - Result.xlsx')
-        self.mset.tmpdata = os.path.join(self.mset.tmp1, self.mset.crtwk + ' - tmpdata.xlsx')
+        self.mset.rlt = os.path.join(self.mset.tmp1, self.mset.crtwk + ' - EMC Result.xlsx')
         self.write1 = pd.ExcelWriter(self.mset.rlt)
-        self.write2 = pd.ExcelWriter(self.mset.tmpdata)
         self.mset.rlt_s = 1 
         return True
     
@@ -132,23 +125,20 @@ class DcspWin(wx.App):
         self.mset.wtd_work = tmp1[-2:]
         self.mset.qtr_working1 = tmp1[0:-4]
         if self.mset.rlt_s == 1:
-            self.mset.rlt = os.path.join(self.mset.tmp1, tmp1 + ' - Result.xlsx')
-            self.mset.tmpdata = os.path.join(self.mset.tmp1, tmp1 + ' - tmpdata.xlsx')
+            self.mset.rlt = os.path.join(self.mset.tmp1, tmp1 + ' - EMC Result.xlsx')
             self.write1 = pd.ExcelWriter(self.mset.rlt)
-            self.write2 = pd.ExcelWriter(self.mset.tmpdata)
         self.mset.selList_s = 1
         return True
     
     def ShortFunnel(self, evt):
-        tmpbool = (self.mset.src1_s == 1) and (self.mset.src2_s == 1) and (self.mset.rlt_s == 1) and (self.mset.selList_s == 1)
+        tmpbool = (self.mset.src1_s == 1) and (self.mset.rlt_s == 1) and (self.mset.selList_s == 1)
         if tmpbool:
             self.mset.rdy = 1
             self.mset.src1_s = -1
-            self.mset.src2_s = -1
             self.mset.rlt_s = -1
             self.mset.selList_s = -1
             self.shortlabel.SetLabel('The result file name is: ' + self.mset.rlt)
-            run1 = RunData(self.mset, self.write1, self.write2)
+            run1 = RunData(self.mset, self.write1)
             run1.run_data(self, self.mset)
             self.mset.rdy = -1
             self.logshow.Clear()

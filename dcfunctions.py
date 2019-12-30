@@ -14,7 +14,14 @@ def prt_head():
 def show_welcome0():
     tstr1 = "========++++++++++++++++++++++++++++++++++++++++++++++++========"
     tstr2 = "******** 張國祥  David Chang, David.Chang2@Dell.com ********"
-    tstr3 = "******** HW SFDC Funnel/Funnel List生成工具 - Version 1.0 *********"
+    tstr3 = "******** EMC HW Funnel/Funnel List生成工具 - Version 1.0 *********"
+    tstr = [tstr1, tstr2, tstr3, tstr1]
+    return tstr
+
+def show_welcome0_2():
+    tstr1 = "========++++++++++++++++++++++++++++++++++++++++++++++++========"
+    tstr2 = "******** 張國祥  David Chang, David.Chang2@Dell.com ********"
+    tstr3 = "******** HW SFDC Funnel/Funnel List生成工具 - Version 2.0 *********"
     tstr = [tstr1, tstr2, tstr3, tstr1]
     return tstr
 
@@ -23,6 +30,12 @@ def show_welcome(src1='', src2='', rlt=''):
     tstr5 = "\tSource file of Funnel List from David Chang: \n\t\'" + src2 + "\'"
     tstr6 = "\tGenerated Funnel List in:\n\t\'" + rlt + "\'"
     tstr = [tstr4, tstr5, tstr6]
+    return tstr
+
+def show_welcome_2(src1='', rlt=''):
+    tstr4 = "\tSource file of EMC HW Funnel:\n\t\'" + src1 + "\'"
+    tstr6 = "\tGenerated Funnel List in:\n\t\'" + rlt + "\'"
+    tstr = [tstr4, tstr6]
     return tstr
 
 def print_start_search(sheetname=''):
@@ -59,6 +72,13 @@ def type_src(lines_hw=0, cols_hw=0, lines_zgx=0, cols_zgx=0):
     tstr4 = "\tSource columns of \'Funnel List\' from David Chang are: " + str(cols_zgx)
     tstr = [tstr1, tstr2, tstr3, tstr4]
     return tstr
+
+def type_src_2(lines_hw=0, cols_hw=0):
+    tstr1 = "\tSource \'EMC HW Funnel\' lines are: " + str(lines_hw)
+    tstr2 = "\tSource \'EMC HW Funnel\' columns are: " + str(cols_hw)
+    tstr = [tstr1, tstr2]
+    return tstr
+
 
 def prt_fordel(fordel=[], sheetname=''):
     tmp1 = len(fordel)

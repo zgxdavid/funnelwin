@@ -82,7 +82,7 @@ class RunData():
         app.fb4.AppendText(mset.logs)
      
         sheetname1 = 'sheet_dout1'
-    #   dcf.sheetbackup(write2, din1, mset.src1_sheet) #这个文件太大，写的时候会将文件锁死，后面打不开文件，就先不备份了
+    #   dcf.sheetbackup(self.write2, din1, mset.src1_sheet) #这个文件太大，写的时候会将文件锁死，后面打不开文件，就先不备份了
         dout1 = dcf.droplns(self.write1, din1, self.fordel, sheetname1)
         dcf.sheetbackup(self.write2, dout1, sheetname1)
              
